@@ -1,0 +1,15 @@
+*.pyc
+__pycache__/
+node_modules/
+.venv/
+*.log
+*.csv
+*.json
+*.sqlite3
+*.swp
+*.swo
+*.out
+*.tmp
+*.DS_Store
+.vscode/
+.idea/
