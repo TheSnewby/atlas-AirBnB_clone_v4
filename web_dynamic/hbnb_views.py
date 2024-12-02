@@ -6,20 +6,23 @@ from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from os import environ
-from flask import Flask, render_template
+from flask import Blueprint, Flask, render_template
 import uuid
-app = Flask(__name__)
+#app = Flask(__name__)
 # app.jinja_env.trim_blocks = True
 # app.jinja_env.lstrip_blocks = True
 
 
-@app.teardown_appcontext
+#@app.teardown_appcontext
 def close_db(error):
     """ Remove the current SQLAlchemy Session """
     storage.close()
 
 
-@app.route('/4-hbnb', strict_slashes=False)
+hbnb_bp = Blueprint('hbnb', __name__)
+
+@hbnb_bp.route('/', strict_slashes=False)
+@hbnb_bp.route('/4-hbnb', strict_slashes=False)
 def hbnb():
     """ HBNB is alive! """
     states = storage.all(State).values()
@@ -44,6 +47,7 @@ def hbnb():
                            cache_id=cache_id)
 
 
-if __name__ == "__main__":
-    """ Main Function """
-    app.run(host='0.0.0.0', port=5000)
+#if __name__ == "__main__":
+#    """ Main Function """
+#    port = environ.get('HBNB_WEB_PORT', 5000)
+#    app.run(host='0.0.0.0', port=port)

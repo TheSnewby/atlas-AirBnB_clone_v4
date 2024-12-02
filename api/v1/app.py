@@ -2,6 +2,7 @@
 """ Flask Application """
 from models import storage
 from api.v1.views import app_views
+from hbnb_views import hbnb_bp
 from os import environ
 from flask import Flask, render_template, make_response, jsonify
 from flask_cors import CORS
@@ -11,6 +12,7 @@ from flasgger.utils import swag_from
 app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 app.register_blueprint(app_views)
+app.register_blueprint(hbnb_bp)
 cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 
@@ -45,5 +47,5 @@ if __name__ == "__main__":
     if not host:
         host = '0.0.0.0'
     if not port:
-        port = '5000'
+        port = '5001'
     app.run(host=host, port=port, threaded=True)
