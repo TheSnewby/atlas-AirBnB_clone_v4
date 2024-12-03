@@ -2,14 +2,14 @@
 """ Flask Application """
 from models import storage
 from api.v1.views import app_views
-from hbnb_views import hbnb_bp
+from web_dynamic.hbnb_views import hbnb_bp
 from os import environ
 from flask import Flask, render_template, make_response, jsonify
 from flask_cors import CORS
 from flasgger import Swagger
 from flasgger.utils import swag_from
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../../web_dynamic/static', template_folder='../../web_dynamic/templates')
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 app.register_blueprint(app_views)
 app.register_blueprint(hbnb_bp)

@@ -6,6 +6,7 @@ from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from os import environ
+from api.v1.views import app_views
 from flask import Blueprint, Flask, render_template
 import uuid
 #app = Flask(__name__)
@@ -19,7 +20,7 @@ def close_db(error):
     storage.close()
 
 
-hbnb_bp = Blueprint('hbnb', __name__)
+hbnb_bp = Blueprint('hbnb', __name__) #static_folder='../web_dynamic/static', template_folder='../web_dynamic/templates')
 
 @hbnb_bp.route('/', strict_slashes=False)
 @hbnb_bp.route('/4-hbnb', strict_slashes=False)
