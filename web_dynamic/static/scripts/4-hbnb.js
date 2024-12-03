@@ -1,22 +1,22 @@
 $(document).ready(function () {
 	// API status check
-	$.get('http://0.0.0.0:5001/api/v1/status/', (data, status) => {
-	  if (status === 'OK') {
-		$('div#api_status').addClass('available');
-	  } else {
-		$('div#api_status').removeClass('available');
-	  }
+	$.get('http://0.0.0.0:5001/api/v1/status/', function (data) {
+		if (data.status === 'OK') {
+			$('#api_status').addClass('available');
+		} else {
+			$('#api_status').removeClass('available');
+		}
 	});
 
 	// Fetch initial places
 	$.ajax({
-	  url: 'http://0.0.0.0:5001/api/v1/places_search',
-	  type: 'POST',
-	  contentType: 'application/json',
-	  data: JSON.stringify({}),
-	  success: function (response) {
-		for (const place of response) {
-		  const article = `
+		url: 'http://0.0.0.0:5001/api/v1/places_search',
+		type: 'POST',
+		contentType: 'application/json',
+		data: JSON.stringify({}),
+		success: function (response) {
+			for (const place of response) {
+				const article = `
 			<article>
 			  <div class="title_box">
 				<h2>${place.name}</h2>
@@ -31,31 +31,31 @@ $(document).ready(function () {
 				${place.description} 
 			  </div>
 			</article>`;
-		  $('section.places').append(article);
+				$('section.places').append(article);
+			}
+		},
+		error: function (error) {
+			console.error('Error fetching places:', error);
 		}
-	  },
-	  error: function (error) {
-		console.error('Error fetching places:', error);
-	  }
 	});
 
 	// Amenity filter logic
 	$('button').click(function () {
-	  const checkedAmenities = [];
-	  $('input[type="checkbox"]:checked').each(function () {
-		checkedAmenities.push($(this).data('id'));
-	  });
+		const checkedAmenities = [];
+		$('input[type="checkbox"]:checked').each(function () {
+			checkedAmenities.push($(this).data('id'));
+		});
 
-	  $.ajax({
-		url: 'http://0.0.0.0:5001/api/v1/places_search',
-		type: 'POST',
-		contentType: 'application/json',
-		data: JSON.stringify({ amenities: checkedAmenities }),
-		success: function (response) {
-		  $('section.places').empty(); // Clear previous places
-		  // Add new places
-		  for (const place of response) {
-			const article = `
+		$.ajax({
+			url: 'http://0.0.0.0:5001/api/v1/places_search',
+			type: 'POST',
+			contentType: 'application/json',
+			data: JSON.stringify({ amenities: checkedAmenities }),
+			success: function (response) {
+				$('section.places').empty(); // Clear previous places
+				// Add new places
+				for (const place of response) {
+					const article = `
 			  <article>
 				<div class="title_box">
 				  <h2>${place.name}</h2>
@@ -70,12 +70,30 @@ $(document).ready(function () {
 				  ${place.description} 
 				</div>
 			  </article>`;
-			$('section.places').append(article);
-		  }
-		},
-		error: function (error) {
-		  console.error('Error fetching places:', error);
-		}
-	  });
+					$('section.places').append(article);
+				}
+			},
+			error: function (error) {
+				console.error('Error fetching places:', error);
+			}
+		});
 	});
-  });
+	$('input[type="checkbox"]').change(function () {
+		const selectedAmenities = [];
+		$('input[type="checkbox"]:checked').each(function () {
+			selectedAmenities.push($(this).data('name'));
+
+		});
+
+		// Update the displayed amenities
+		const amenitiesContainer = $('div.amenities h4');
+		amenitiesContainer.empty();
+
+		if (selectedAmenities.length > 0) {
+			amenitiesContainer.text(selectedAmenities.join(', '));
+		} else {
+			amenitiesContainer.text(''); // Reset to default if none selected
+		}
+	});
+});
+

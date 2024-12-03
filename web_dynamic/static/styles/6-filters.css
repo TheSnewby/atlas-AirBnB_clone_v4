@@ -49,6 +49,7 @@ button:hover {
 .amenities {
     height: 100%;
     width: 25%;
+    word-wrap: break-word;
 }
 
 .popover {
