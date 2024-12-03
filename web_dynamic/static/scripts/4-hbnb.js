@@ -7,7 +7,7 @@ $(document).ready(function () {
 		$('div#api_status').removeClass('available');
 	  }
 	});
-  
+
 	// Fetch initial places
 	$.ajax({
 	  url: 'http://0.0.0.0:5001/api/v1/places_search',
@@ -38,14 +38,14 @@ $(document).ready(function () {
 		console.error('Error fetching places:', error);
 	  }
 	});
-  
+
 	// Amenity filter logic
 	$('button').click(function () {
 	  const checkedAmenities = [];
 	  $('input[type="checkbox"]:checked').each(function () {
 		checkedAmenities.push($(this).data('id'));
 	  });
-  
+
 	  $.ajax({
 		url: 'http://0.0.0.0:5001/api/v1/places_search',
 		type: 'POST',
