@@ -16,6 +16,7 @@ $(function () {
 
 $(function () {
   $.get('http://0.0.0.0:5001/api/v1/status/', (data, status) => {
+    // console.log(status);
     if (status === 'OK') {
         $('div#api_status').addClass('available');
     } else {
