@@ -94,6 +94,7 @@ $(document).ready(function () {
 		} else {
 			amenitiesContainer.text(''); // Reset to default if none selected
 		}
+		
 	});
 });
 
